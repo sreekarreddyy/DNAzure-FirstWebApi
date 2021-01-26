@@ -1,0 +1,16 @@
+services:
+  dnc:
+    build:
+      context: /Users/sreekarreddy/Projects/DNC
+      dockerfile: DNC/Dockerfile
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+      ASPNETCORE_URLS: https://+:443;http://+:80
+    image: dnc
+    ports:
+    - target: 80
+    - target: 443
+    volumes:
+    - /Users/sreekarreddy/.aspnet/https:/root/.aspnet/https:ro
+    - /Users/sreekarreddy/.microsoft/usersecrets:/root/.microsoft/usersecrets:ro
+version: '3.4'

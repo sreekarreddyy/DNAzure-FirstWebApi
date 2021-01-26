@@ -1,0 +1,8 @@
+version: '3.4'
+
+services:
+  dnc:
+    image: ${DOCKER_REGISTRY-}dnc
+    build:
+      context: .
+      dockerfile: DNC/Dockerfile

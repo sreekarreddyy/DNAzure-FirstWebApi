@@ -1,0 +1,36 @@
+services:
+  dnc:
+    build:
+      context: /Users/sreekarreddy/Projects/DNC
+      dockerfile: DNC/Dockerfile
+      labels:
+        com.microsoft.created-by: visual-studio
+        com.microsoft.visual-studio.project-name: DNC
+      target: build-env
+    container_name: DNC
+    entrypoint: tail -f /dev/null
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+      ASPNETCORE_LOGGING__CONSOLE__DISABLECOLORS: "true"
+      ASPNETCORE_URLS: https://+:443;http://+:80
+      DOTNET_USE_POLLING_FILE_WATCHER: '1'
+      NUGET_FALLBACK_PACKAGES: ''
+    image: dnc:dev
+    labels:
+      com.microsoft.visualstudio.debuggee.arguments: ' --additionalProbingPath /root/.nuget/packages  "/app/bin/Debug/netcoreapp3.1/DNC.dll"'
+      com.microsoft.visualstudio.debuggee.killprogram: /bin/sh -c "if PID=$$(pidof
+        dotnet); then kill $$PID; fi"
+      com.microsoft.visualstudio.debuggee.program: dotnet
+      com.microsoft.visualstudio.debuggee.workingdirectory: /app
+    ports:
+    - target: 80
+    - target: 443
+    tty: true
+    volumes:
+    - /Users/sreekarreddy/Projects/DNC/DNC:/app:rw
+    - /Users/sreekarreddy/vsdbg/vs2017u5:/remote_debugger:rw
+    - /Users/sreekarreddy/.aspnet/https:/root/.aspnet/https:ro
+    - /Users/sreekarreddy/.microsoft/usersecrets:/root/.microsoft/usersecrets:ro
+    - /Users/sreekarreddy/.nuget/packages:/root/.nuget/packages:ro
+    - /Users/sreekarreddy/Projects/DNC:/src:rw
+version: '3.4'
